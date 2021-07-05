@@ -19,7 +19,7 @@ An Android application that helps people who suffers from mental illness by taki
 ```
 implementation 'com.github.KwabenBerko:News-API-Java:1.0.0'
 ```
-adding this line in app level gradle file and
+adding this line in app level gradle file and following line in project level gradle file
 ```
 allprojects {
     repositories {
