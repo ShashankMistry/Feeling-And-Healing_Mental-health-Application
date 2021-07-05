@@ -1,5 +1,5 @@
 # Feeling-And-Healing_Mental-health-Application
-An Android application that helps people who suffers from mental illness.
+An Android application that helps people who suffers from mental illness by taking quiz, talking to them via chat bot and suggesting them exercices.
 
 ## Highlights
 * Streaming Music
