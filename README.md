@@ -3,7 +3,7 @@ An Android application that helps people who suffers from mental illness by taki
 
 ## Technologies used
 * SQlite Database
-* DiallogFlow
+* DialogFlow
 
 ## Highlights
 * Streaming Music
