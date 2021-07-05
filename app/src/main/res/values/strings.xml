@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Feeling &#38; Healing</string>
+    <string name="greeting">Hello User</string>
+    <string name="next_question">Next Question</string>
+    <string name="quit">Quit</string>
+    <string name="questions">Questions</string>
+    <string name="_0">0</string>
+    <string name="start">Start</string>
+    <string name="enter_your_name">Enter your name</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="iconsby">Alzheimer icon by Icons8</string>
+
+</resources>

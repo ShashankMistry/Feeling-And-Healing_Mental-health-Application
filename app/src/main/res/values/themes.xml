@@ -1,0 +1,56 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MentalHealth" parent="Theme.AppCompat.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimaryVariant">#1b262c</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+<!--        <item name="colorOnSecondary">@color/black</item>-->
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">#0f4c75</item>
+        <item name="editTextStyle">@style/MyEditTextTheme</item>
+        <item name="android:navigationBarColor">#00000000</item>
+    </style>
+
+    <style name="MyEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">#b6c9f0</item>
+    </style>
+
+
+    <!--    material design-->
+
+
+    <style name="Custom_Slider_Style" parent="Widget.MaterialComponents.Slider">
+        <item name="materialThemeOverlay">@style/slider_overlay</item>
+    </style>
+
+    <style name="slider_overlay">
+        <item name="colorOnBackground">#095591</item>
+        <item name="colorPrimary">@color/teal_200</item>
+        <item name="colorOnPrimary">@color/teal_700</item>
+        <item name="colorPrimaryVariant" type="color">@color/my_app_primary_variant_color</item>
+        <item name="colorSecondaryVariant" type="color">@color/my_app_secondary_variant_color</item>
+        <item name="colorSurface" type="color">@color/my_app_surface_color</item>
+        <item name="colorOnSecondary" type="color">@color/my_app_color_on_secondary</item>
+        <item name="colorOnError" type="color">@color/my_app_color_on_error</item>
+        <item name="colorOnSurface" type="color">@color/my_app_color_on_surface</item>
+        <item name="scrimBackground" type="color">@color/mtrl_scrim_color</item>
+        <item name="textAppearanceHeadline1" type="style">@style/TextAppearance.MaterialComponents.Headline1</item>
+        <item name="textAppearanceHeadline2" type="style">@style/TextAppearance.MaterialComponents.Headline2</item>
+        <item name="textAppearanceHeadline3" type="style">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="textAppearanceHeadline4" type="style">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="textAppearanceHeadline5" type="style">@style/TextAppearance.MaterialComponents.Headline5</item>
+        <item name="textAppearanceHeadline6" type="style">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="textAppearanceSubtitle1" type="style">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+        <item name="textAppearanceSubtitle2" type="style">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="textAppearanceBody1" type="style">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2" type="style">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceCaption" type="style">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceButton" type="style">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceOverline" type="style">@style/TextAppearance.MaterialComponents.Overline</item>
+    </style>
+</resources>

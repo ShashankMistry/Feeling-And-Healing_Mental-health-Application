@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#1b262c</color>
+    <color name="colorPrimaryDark">#6A1B9A</color>
+    <color name="colorAccent">#9013FE</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#fff</color>
+    <color name="titleColor">#07F3F1</color>
+    <color name="my_app_primary_variant_color">#FF018786</color>
+    <color name="my_app_secondary_variant_color">#FF03DAC5</color>
+    <color name="my_app_surface_color">#07F3F1</color>
+    <color name="my_app_color_on_primary">#345F33</color>
+    <color name="my_app_color_on_secondary">#FFF</color>
+    <color name="my_app_color_on_background">#000</color>
+    <color name="my_app_color_on_error">#DF0707</color>
+    <color name="my_app_color_on_surface">#FFF</color>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shashank.mentalhealth">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/mental_health"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/mental_health"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MentalHealth">
+        <activity android:name=".Activities.NewsActivity"
+            android:parentActivityName=".Activities.optionActivity"
+            android:label="BLOG/ARTICLES"/>
+        <activity
+            android:name=".Activities.ExerciseActivity"
+            android:parentActivityName=".Activities.optionActivity"
+            android:screenOrientation="portrait"
+            android:label="EXERCISE"/>
+        <activity
+            android:name=".Activities.ChatActivity"
+            android:parentActivityName=".Activities.optionActivity"
+            android:label="SAGE"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.optionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MusicActivity"
+            android:parentActivityName=".Activities.optionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.QuizActivity"
+            android:parentActivityName=".Activities.MentalConditions"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.ResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MentalConditions"
+            android:parentActivityName=".Activities.optionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

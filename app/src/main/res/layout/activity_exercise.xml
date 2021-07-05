@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.ExerciseActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/asap"
+        android:text="Exercises we recommend for depression and anxiety."
+        android:textColor="#bbe1fa"
+        android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/amaranth"
+        android:text='"It is not easy but it is worth it. now repeat that every day."'
+        android:textColor="#bbe1fa"
+        android:textSize="20sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="#3D9DEA"
+        app:cardCornerRadius="10dp">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <CheckedTextView
+        android:id="@+id/exercise1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkMark="?android:listChoiceIndicatorMultiple"
+        android:checkMarkTint="#bbe1fa"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="You should go for 30 minutes of walk"
+        android:textColor="#fff"
+        android:textSize="25sp" />
+
+    <CheckedTextView
+        android:id="@+id/exercise2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkMark="?android:listChoiceIndicatorMultiple"
+        android:fontFamily="@font/asap"
+        android:checkMarkTint="#bbe1fa"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Do meditation for 10 minutes"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+
+    <CheckedTextView
+        android:id="@+id/exercise3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkMarkTint="#bbe1fa"
+        android:checkMark="?android:listChoiceIndicatorMultiple"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Play outdoor games to keep your mind of stress"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp" />
+
+</LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/asap"
+        android:text="Best thing for people who are suffering from bipolar disorder we advice you to not do exxecive excercise. you should do meditation and yoga."
+        android:textColor="#bbe1fa"
+        android:textSize="25sp" />
+</LinearLayout>
+</ScrollView>
