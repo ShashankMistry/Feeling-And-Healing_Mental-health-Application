@@ -6,4 +6,8 @@
         android:id="@+id/newsMenu"
         android:icon="@drawable/ic_article"
         app:showAsAction="always"/>
+
+    <item android:id="@+id/logout"
+        android:title="Logout"
+        app:showAsAction="collapseActionView"/>
 </menu>

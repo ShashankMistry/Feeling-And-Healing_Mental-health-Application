@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,6 +18,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -31,6 +36,7 @@ public class optionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
         checkRunTimePermission();
+        getWindow().setNavigationBarColor(Color.parseColor("#3983a8"));
         quiz = findViewById(R.id.takeQuiz);
         music = findViewById(R.id.listenMusic);
         quote = findViewById(R.id.quote);
@@ -108,6 +114,15 @@ public class optionActivity extends AppCompatActivity {
                 Intent intent = new Intent(optionActivity.this,NewsActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("login",false);
+                editor.apply();
+                startActivity(new Intent(optionActivity.this, MainActivity.class));
+                finish();
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         }
         return super.onOptionsItemSelected(item);
     }

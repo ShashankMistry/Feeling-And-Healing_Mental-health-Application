@@ -47,7 +47,7 @@ public class QuizActivity extends AppCompatActivity {
 //        Toast.makeText(this, questions.size()+""+ intent.getStringExtra("test"), Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
         String Name = sharedPreferences.getString("edit", "Friend");
-        textView.setText("Hello , " + Name);
+        textView.setText("Hello , \n" + Name);
 
         submitbutton = findViewById(R.id.button3);
         quitbutton = findViewById(R.id.buttonquit);

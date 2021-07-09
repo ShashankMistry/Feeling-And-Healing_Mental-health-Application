@@ -43,21 +43,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Welcome"
+                android:text="Login"
                 android:textColor="#FFF"
                 android:textSize="30sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="Please enter your name."
-                android:textColor="#FFF"
-                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/et_name"
@@ -66,20 +55,53 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/edittext_bf"
                 android:fontFamily="monospace"
-                android:hint="Name"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
                 android:padding="10dp"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#90FFFFFF" />
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_bf"
+                android:inputType="textPassword"
+                android:fontFamily="monospace"
+                android:hint="Password"
+                android:padding="10dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#90FFFFFF" />
+
+            <TextView
+                android:id="@+id/forgot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:text="Forgot password?"
+                android:textColor="#E63232" />
+
+            <TextView
+                android:id="@+id/reg_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:text="Register here!!"
+                android:textColor="#E63232"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/edittext_bf"
+                android:foreground="@drawable/edittext_bf"
                 android:fontFamily="monospace"
                 android:text="Enter"
-                android:foreground="?attr/selectableItemBackground"
+                android:background="?selectableItemBackgroundBorderless"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
         </LinearLayout>

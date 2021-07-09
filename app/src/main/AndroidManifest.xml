@@ -12,18 +12,20 @@
         android:roundIcon="@drawable/mental_health"
         android:supportsRtl="true"
         android:theme="@style/Theme.MentalHealth">
-        <activity android:name=".Activities.NewsActivity"
-            android:parentActivityName=".Activities.optionActivity"
-            android:label="BLOG/ARTICLES"/>
+        <activity android:name=".Activities.RegisterActivity"></activity>
+        <activity
+            android:name=".Activities.NewsActivity"
+            android:label="BLOG/ARTICLES"
+            android:parentActivityName=".Activities.optionActivity" />
         <activity
             android:name=".Activities.ExerciseActivity"
+            android:label="EXERCISE"
             android:parentActivityName=".Activities.optionActivity"
-            android:screenOrientation="portrait"
-            android:label="EXERCISE"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ChatActivity"
-            android:parentActivityName=".Activities.optionActivity"
             android:label="SAGE"
+            android:parentActivityName=".Activities.optionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.optionActivity"

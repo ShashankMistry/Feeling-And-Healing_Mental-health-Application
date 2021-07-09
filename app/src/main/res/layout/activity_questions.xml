@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:fontFamily="monospace"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#bbe1fa" />
@@ -80,8 +81,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/button_bg"
-        android:foreground="?attr/selectableItemBackground"
+        android:foreground="@drawable/button_bg"
+        android:background="@drawable/btn_ripple_bg"
         android:fontFamily="monospace"
         android:text="@string/next_question"
         android:textColor="#ffffff"
@@ -96,10 +97,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="38dp"
-        android:background="@drawable/button_bg"
+        android:foreground="@drawable/button_bg"
         android:fontFamily="monospace"
         android:text="@string/quit"
-        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/btn_ripple_bg"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 

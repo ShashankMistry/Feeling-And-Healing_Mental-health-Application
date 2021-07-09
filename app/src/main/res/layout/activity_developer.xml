@@ -43,10 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:background="@drawable/button_bg"
+            android:foreground="@drawable/button_bg"
             android:fontFamily="monospace"
             android:text="depression quiz"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/btn_ripple_bg"
             android:textColor="#FDFDFD"
             android:textSize="22sp"
             app:rippleColor="#FDFDFD" />
@@ -57,10 +57,10 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:background="@drawable/button_bg"
+            android:foreground="@drawable/button_bg"
             android:fontFamily="monospace"
             android:text="bipolar quiz"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/btn_ripple_bg"
             android:textColor="#FFFFFF"
             android:textSize="22sp" />
 
@@ -70,10 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:background="@drawable/button_bg"
+            android:foreground="@drawable/button_bg"
             android:fontFamily="monospace"
             android:text="anxiety quiz"
-            android:foreground="?attr/selectableItemBackground"
+            android:background="@drawable/btn_ripple_bg"
             android:textColor="#FFFFFF"
             android:textSize="22sp" />
 

@@ -24,7 +24,7 @@ import com.shashank.mentalhealth.R;
 
 import java.util.Random;
 
-
+@SuppressLint("UseCompatLoadingForDrawables")
 public class MusicActivity extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     private AudioManager mAudioManager;
@@ -98,7 +98,7 @@ public class MusicActivity extends AppCompatActivity {
                     } else{
                         totalTime.setText(Minutes +":"+Seconds);
                     }
-                    button.setBackgroundResource(R.drawable.play96);
+                    button.setForeground(getDrawable(R.drawable.play96));
                     int audioSessionId = mediaPlayer.getAudioSessionId();
                     if (audioSessionId != -1) {
                         mVisualizer.setAudioSessionId(audioSessionId);
@@ -109,7 +109,7 @@ public class MusicActivity extends AppCompatActivity {
 
             });
         }).start();
-        button.setBackgroundResource(R.drawable.loading96);
+        button.setForeground(getDrawable(R.drawable.loading96));
 
         button.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("UseCompatLoadingForDrawables")
@@ -117,16 +117,16 @@ public class MusicActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAudioManager.requestAudioFocus(mFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
-                if (button.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.play96).getConstantState())) {
-                    button.setBackgroundResource(R.drawable.pause96);
+                if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.play96).getConstantState())) {
+                    button.setForeground(getDrawable(R.drawable.pause96));
                     if (length != 0) {
                         // mediaPlayer = MediaPlayer.create(MusicActivity.this, Uri.parse(getCurrentLink())); //peace music
                         mediaPlayer.seekTo(length);
                     }
                     mediaPlayer.start();
                     stopped = false;
-                } else if (button.getBackground().getConstantState().equals(getResources().getDrawable(R.drawable.pause96).getConstantState())) {
-                    button.setBackgroundResource(R.drawable.play96);
+                } else if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.pause96).getConstantState())) {
+                    button.setForeground(getDrawable(R.drawable.play96));
                     mediaPlayer.pause();
                     length = mediaPlayer.getCurrentPosition();
                     //  releaseMediaResources();
@@ -134,10 +134,11 @@ public class MusicActivity extends AppCompatActivity {
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
                 releaseMediaResources();
-                button.setBackgroundResource(R.drawable.loading96);
+                button.setForeground(getDrawable(R.drawable.loading96));
                 new Thread(() -> {
                     mediaPlayer = MediaPlayer.create(MusicActivity.this, Uri.parse(getCurrentLink())); //peace music
                     runOnUiThread(() -> {
@@ -154,14 +155,14 @@ public class MusicActivity extends AppCompatActivity {
                         }
                         mediaPlayer.start();
                         duration = mediaPlayer.getDuration();
-                        button.setBackgroundResource(R.drawable.pause96);
+                        button.setForeground(getDrawable(R.drawable.pause96));
                     });
                 }).start();
             }
         });
         pre.setOnClickListener(v -> {
             releaseMediaResources();
-            button.setBackgroundResource(R.drawable.loading96);
+            button.setForeground(getDrawable(R.drawable.loading96));
             new Thread(() -> {
                 mediaPlayer = MediaPlayer.create(MusicActivity.this, Uri.parse(getCurrentLink())); //peace music
                 runOnUiThread(() -> {
@@ -178,7 +179,7 @@ public class MusicActivity extends AppCompatActivity {
                     }
                     mediaPlayer.start();
                     duration = mediaPlayer.getDuration();
-                    button.setBackgroundResource(R.drawable.pause96);
+                    button.setForeground(getDrawable(R.drawable.pause96));
                 });
             }).start();
         });

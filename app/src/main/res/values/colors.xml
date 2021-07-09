@@ -20,4 +20,6 @@
     <color name="my_app_color_on_background">#000</color>
     <color name="my_app_color_on_error">#DF0707</color>
     <color name="my_app_color_on_surface">#FFF</color>
+    <color name="colorWindowBackground">#A4FFFFFF</color>
+    <color name="colorRipple">#0288d1</color>
 </resources>

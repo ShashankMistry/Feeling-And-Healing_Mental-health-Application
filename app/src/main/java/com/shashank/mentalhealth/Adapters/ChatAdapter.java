@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,14 +48,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             holder.messageSend.setVisibility(View.GONE);
             if (message.contains("exercise")) {
                 holder.messageReceive.setText(message + "\n\n" + "I'll redirect you to exercise page");
-                new Handler().postDelayed(new Runnable() {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         Intent intent = new Intent(mContext, ExerciseActivity.class);
                         mContext.startActivity(intent);
                         activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                     }
-                }, 5000);
+                }, 3000);
 
             } else {
                 holder.messageReceive.setText(message);
