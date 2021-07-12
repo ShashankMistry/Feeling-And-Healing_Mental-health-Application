@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.shashank.mentalhealth.DB.DBHelper;
 import com.shashank.mentalhealth.R;
 
@@ -41,12 +42,18 @@ public class QuizActivity extends AppCompatActivity {
         intent = getIntent();
         DBHelper dbHelper = new DBHelper(this, null, 1);
         ArrayList<String> questions = new ArrayList<>();
-
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         dbHelper.fetchQuestions(intent.getStringExtra("test"),questions);
 //        Toast.makeText(this, questions.size()+""+ intent.getStringExtra("test"), Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
-        String Name = sharedPreferences.getString("edit", "Friend");
+        String name = auth.getCurrentUser().getDisplayName();
+        String Name;
+        if (name != null) {
+            Name = sharedPreferences.getString("edit", auth.getCurrentUser().getDisplayName());
+        } else {
+            Name = sharedPreferences.getString("edit", "Friend");
+        }
         textView.setText("Hello , \n" + Name);
 
         submitbutton = findViewById(R.id.button3);
