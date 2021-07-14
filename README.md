@@ -13,10 +13,11 @@ An Android application that helps people who suffers from mental illness by taki
 * in-app web browser with chrome custom tabs
 * Storing data of every users in SQlite databse
 * Three different test for different mental health problems
+* Firebase for authentication of user with email id or google
 * Implementation of chat bot user can talk to chat bot about mental health
 
 ## Chat-bot
-* Created chat bot with dialogFlow, you have to put your credential.json file into raw folder.
+* Created chat bot with dialogFlow to provide better treatment to patient, you have to put your credential.json file into raw folder.
 
 ## News and Blogs API
 * Fetching news from NEWSAPI with thier own library.
