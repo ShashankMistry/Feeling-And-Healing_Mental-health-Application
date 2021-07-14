@@ -2,8 +2,9 @@
 An Android application that helps people who suffers from mental illness by taking quiz, talking to them via chat bot and suggesting them exercices.
 
 ## Technologies used
-* SQlite Database
+* Firebase
 * DialogFlow
+* SQlite Database
 
 ## Highlights
 * Streaming Music
