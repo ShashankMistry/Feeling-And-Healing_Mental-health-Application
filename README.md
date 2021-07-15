@@ -8,6 +8,7 @@ An Android application that helps people who suffers from mental illness by taki
 
 ## Highlights
 * Streaming Music
+* Material design
 * Graph implementation
 * Blogs/Articles about mental health
 * in-app web browser with chrome custom tabs
