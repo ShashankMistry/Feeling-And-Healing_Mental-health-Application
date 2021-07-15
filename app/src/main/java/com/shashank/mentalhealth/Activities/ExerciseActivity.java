@@ -9,11 +9,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
 import com.shashank.mentalhealth.Dialog.ExerciseDialog;
 import com.shashank.mentalhealth.R;
 
@@ -62,12 +64,12 @@ public class ExerciseActivity extends AppCompatActivity {
                     first.setChecked(true);
                     ExerciseDialog exerciseDialog = new ExerciseDialog();
                     exerciseDialog.show(getSupportFragmentManager(),"exercise");
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                            exerciseDialog.dismiss();
                         }
-                    },2000);
+                    },3000);
 
                 }
             }
@@ -88,12 +90,12 @@ public class ExerciseActivity extends AppCompatActivity {
                     second.setChecked(true);
                     ExerciseDialog exerciseDialog = new ExerciseDialog();
                     exerciseDialog.show(getSupportFragmentManager(),"exercise");
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             exerciseDialog.dismiss();
                         }
-                    },2000);
+                    },3000);
                 }
             }
         });
@@ -113,12 +115,12 @@ public class ExerciseActivity extends AppCompatActivity {
                     third.setChecked(true);
                     ExerciseDialog exerciseDialog = new ExerciseDialog();
                     exerciseDialog.show(getSupportFragmentManager(),"exercise");
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             exerciseDialog.dismiss();
                         }
-                    },2000);
+                    },3000);
                 }
             }
         });

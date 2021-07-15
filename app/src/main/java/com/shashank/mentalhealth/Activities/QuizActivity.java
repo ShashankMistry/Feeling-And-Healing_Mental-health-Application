@@ -19,6 +19,7 @@ import com.shashank.mentalhealth.DB.DBHelper;
 import com.shashank.mentalhealth.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Quiz");
         actionBar.setDisplayHomeAsUpEnabled(true);
         TextView textView = findViewById(R.id.DispName);
@@ -47,10 +49,10 @@ public class QuizActivity extends AppCompatActivity {
         dbHelper.fetchQuestions(intent.getStringExtra("test"),questions);
 //        Toast.makeText(this, questions.size()+""+ intent.getStringExtra("test"), Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
-        String name = auth.getCurrentUser().getDisplayName();
+        String name = Objects.requireNonNull(auth.getCurrentUser()).getDisplayName();
         String Name;
         if (name != null) {
-            Name = sharedPreferences.getString("edit", auth.getCurrentUser().getDisplayName());
+            Name = name;
         } else {
             Name = sharedPreferences.getString("edit", "Friend");
         }
@@ -112,7 +114,7 @@ public class QuizActivity extends AppCompatActivity {
         quitbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), optionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BottomLayoutActivity.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             }

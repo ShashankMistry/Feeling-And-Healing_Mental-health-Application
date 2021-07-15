@@ -185,7 +185,7 @@ public class ResultActivity extends AppCompatActivity {
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), optionActivity.class);
+                Intent in = new Intent(getApplicationContext(), BottomLayoutActivity.class);
                 startActivity(in);
                 finish();
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);

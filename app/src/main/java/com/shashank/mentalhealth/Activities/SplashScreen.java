@@ -22,6 +22,13 @@ public class SplashScreen extends AppCompatActivity {
         actionBar.hide();
         Window window = getWindow();
         window.setStatusBarColor(Color.parseColor("#0f4c75"));
-        new Handler(Looper.getMainLooper()).postDelayed(() -> startActivity(new Intent(SplashScreen.this,MainActivity.class)),1500);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(SplashScreen.this,MainActivity.class));
+                finish();
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            }
+        },1500);
     }
 }

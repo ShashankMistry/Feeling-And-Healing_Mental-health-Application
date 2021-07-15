@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,7 +31,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.shashank.mentalhealth.Activities.optionActivity;
 import com.shashank.mentalhealth.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            startActivity(new Intent(MainActivity.this, optionActivity.class));
+            startActivity(new Intent(MainActivity.this, BottomLayoutActivity.class));
             finish();
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         }
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 //                            editor.putBoolean("login", true);
                             editor.apply();
                             dialog.dismiss();
-                            Intent intent = new Intent(MainActivity.this, optionActivity.class);
+                            Intent intent = new Intent(MainActivity.this, BottomLayoutActivity.class);
                             startActivity(intent);
                             finish();
                             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -111,9 +109,13 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     dialog.dismiss();
-                                    Toast.makeText(MainActivity.this, "Error logging you in", Toast.LENGTH_SHORT).show();
-//                                    editor.putBoolean("login", false);
-//                                    editor.apply();
+                                    error.setVisibility(View.VISIBLE);
+                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            error.setVisibility(View.GONE);
+                                        }
+                                    }, 2000);
                                 }
                             }, 3000);
 
@@ -125,15 +127,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (pass.length() < 6) {
                         password.setError("Enter valid password");
-                    } else {
-                        // email id or password is incorrect
-                        error.setVisibility(View.VISIBLE);
-                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                error.setVisibility(View.GONE);
-                            }
-                        }, 2000);
                     }
                     dialog.dismiss();
                 }
@@ -232,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(MainActivity.this, optionActivity.class);
+                            Intent intent = new Intent(MainActivity.this, BottomLayoutActivity.class);
                             startActivity(intent);
                             finish();
                             dialog.dismiss();

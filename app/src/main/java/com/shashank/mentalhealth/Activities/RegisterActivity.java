@@ -122,7 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("edit", e);
                     editor.apply();
-                    Intent intent = new Intent(RegisterActivity.this, optionActivity.class);
+                    Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -173,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(RegisterActivity.this, optionActivity.class);
+                            Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
                             startActivity(intent);
                             finish();
                             dialog.dismiss();
