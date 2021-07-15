@@ -7,8 +7,8 @@ An Android application that helps people who suffers from mental illness by taki
 * SQlite Database
 
 ## Highlights
-* Streaming Music
 * Material design
+* Streaming Music
 * Graph implementation
 * Blogs/Articles about mental health
 * in-app web browser with chrome custom tabs
