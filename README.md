@@ -11,6 +11,7 @@ An Android application that helps people who suffers from mental illness by taki
 * Streaming Music
 * Graph implementation
 * Blogs/Articles about mental health
+* Music stops when audio focus changes
 * in-app web browser with chrome custom tabs
 * Storing data of every users in SQlite databse
 * Three different test for different mental health problems
