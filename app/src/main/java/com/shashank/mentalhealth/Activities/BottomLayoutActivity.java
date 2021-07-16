@@ -32,31 +32,14 @@ public class BottomLayoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bottom_layout);
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         QuizFragment fragment1 = new QuizFragment();
-
-        String adapter =  getIntent().getStringExtra("adapter");
-        if (adapter == null){
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(
-                            android.R.anim.slide_in_left,  // enter
-                            android.R.anim.fade_out,  // exit
-                            android.R.anim.fade_in,   // popEnter
-                            android.R.anim.slide_out_right  // popExit
-                    )
-                    .replace(R.id.frame, fragment1)
-                    .commit();
-        } else {
-            ExerciseFragment fragment = new ExerciseFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .setCustomAnimations(
-                            android.R.anim.slide_in_left,  // enter
-                            android.R.anim.fade_out,  // exit
-                            android.R.anim.fade_in,   // popEnter
-                            android.R.anim.slide_out_right  // popExit
-                    )
-                    .replace(R.id.frame, fragment)
-                    .commit();
-            navigationView.setSelectedItemId(R.id.page_4);
-        }
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        android.R.anim.slide_in_left,  // enter
+                        android.R.anim.fade_out,  // exit
+                        android.R.anim.fade_in,   // popEnter
+                        android.R.anim.slide_out_right  // popExit
+                ).replace(R.id.frame, fragment1)
+                .commit();
 
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -76,7 +59,7 @@ public class BottomLayoutActivity extends AppCompatActivity {
                                     .replace(R.id.frame, quizFragment)
                                     .commit();
                             return true;
-                        }else {
+                        } else {
                             return false;
                         }
                     case R.id.page_2:
@@ -130,7 +113,7 @@ public class BottomLayoutActivity extends AppCompatActivity {
                                     .commit();
                             // Respond to navigation item 1 click
                             return true;
-                        }else {
+                        } else {
                             return false;
                         }
                     default:
@@ -151,14 +134,14 @@ public class BottomLayoutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.newsMenu:
-                Intent intent = new Intent(BottomLayoutActivity.this,NewsActivity.class);
+                Intent intent = new Intent(BottomLayoutActivity.this, NewsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("login",false);
+                editor.putBoolean("login", false);
                 editor.apply();
                 startActivity(new Intent(BottomLayoutActivity.this, MainActivity.class));
                 finish();

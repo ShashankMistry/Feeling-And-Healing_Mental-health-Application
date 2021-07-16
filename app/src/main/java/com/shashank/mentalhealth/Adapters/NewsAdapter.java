@@ -49,7 +49,7 @@ public class NewsAdapter extends ArrayAdapter<news> {
             holder.newsDes.setText("");
             holder.newsTitle.setText(Title);
         }
-        Glide.with(getContext()).load(Img).into(holder.newsImg);
+        Glide.with(getContext()).load(Img).placeholder(R.drawable.ispinner).into(holder.newsImg);
         //placeholder set declared image when no image is available from url
         return convertView;
     }

@@ -33,7 +33,7 @@ public class MusicFragment extends Fragment {
     private Slider volume, seekBar;
     private int length, duration;
     private TextView totalTime, currentTime;
-    private Button button;
+    Button button;
     boolean stopped;
     private BarVisualizer mVisualizer;
     Random random = new Random();
@@ -44,12 +44,13 @@ public class MusicFragment extends Fragment {
         @Override
         public void onAudioFocusChange(int focusChange) {
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                mediaPlayer.pause();
-//                button.setBackgroundResource(R.drawable.pause96);
+                releaseMediaResources();
             } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 releaseMediaResources();
                 //pause the music go to Spotify play and pause song in it come back to feeling and healing and press play button,
                 //because Spotify is getting complete focus so when we release MediaPlayer it set to null and than the error occurs.
+            } else {
+                mediaPlayer.start();
             }
         }
     };
@@ -121,8 +122,41 @@ public class MusicFragment extends Fragment {
 
         button.setOnClickListener(v -> {
             mAudioManager.requestAudioFocus(mFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+//            Toast.makeText(getContext(), "length="+length+" "+"duration="+duration, Toast.LENGTH_SHORT).show();
+            if (mediaPlayer == null) {
+                try {
+                    button.setForeground(requireActivity().getDrawable(R.drawable.loading96));
+                    new Thread(() -> {
+                        mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(getCurrentLink())); //peace music
+                        requireActivity().runOnUiThread(() -> {
+                            if (mAudioManager != null && isNetworkAvailable()) {
+                                mediaPlayer.setLooping(true);
+                                duration = mediaPlayer.getDuration();
+                                seekBar.setValueTo(duration / 1000f);
+                                int Minutes = (int) duration / (1000 * 60);
+                                int Seconds = (int) duration % ((1000 * 60 * 60)) % (1000 * 60) / 1000;
+                                if (Seconds < 10) {
+                                    totalTime.setText(Minutes + ":0" + Seconds);
+                                } else {
+                                    totalTime.setText(Minutes + ":" + Seconds);
+                                }
+                                int audioSessionId = mediaPlayer.getAudioSessionId();
+                                if (audioSessionId != -1) {
+                                    mVisualizer.setAudioSessionId(audioSessionId);
+                                }
+                                mediaPlayer.start();
+                                button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                            } else {
+                                Toast.makeText(getContext(), "Error Loading Music", Toast.LENGTH_SHORT).show();
+                            }
 
-            if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.play96).getConstantState()) && mediaPlayer != null) {
+                        });
+                    }).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.play96).getConstantState())) {
+
                 button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
                 if (length != 0) {
                     // mediaPlayer = MediaPlayer.create(MusicActivity.this, Uri.parse(getCurrentLink())); //peace music
@@ -226,6 +260,28 @@ public class MusicFragment extends Fragment {
         return rootView;
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                button.setForeground(requireActivity().getDrawable(R.drawable.play96));
+//            Toast.makeText(getContext(), "pause called", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) {
+                button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+            }
+        }
+    }
+
     public void releaseMediaResources() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
@@ -235,6 +291,9 @@ public class MusicFragment extends Fragment {
         if (mVisualizer != null) {
             mVisualizer.release();
         }
+        currentTime.setText("00:00");
+        totalTime.setText("00:00");
+        seekBar.setValue(0.0f);
     }
 
     public String getCurrentLink() {

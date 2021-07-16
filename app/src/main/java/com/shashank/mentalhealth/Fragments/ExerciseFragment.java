@@ -1,25 +1,29 @@
 package com.shashank.mentalhealth.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.shashank.mentalhealth.Dialog.ExerciseDialog;
 import com.shashank.mentalhealth.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -27,7 +31,7 @@ public class ExerciseFragment extends Fragment {
     private String currentDate, exe1, exe2,exe3;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private CheckedTextView first, second, third;
+    private ListView listView;
     private Date now;
 
     public ExerciseFragment() {
@@ -38,12 +42,17 @@ public class ExerciseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_exercise, container, false);
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Exercise");
-        first = rootView.findViewById(R.id.exercise1);
-        second = rootView.findViewById(R.id.exercise2);
-        third = rootView.findViewById(R.id.exercise3);
+//        first = rootView.findViewById(R.id.exercise1);
+//        second = rootView.findViewById(R.id.exercise2);
+//        third = rootView.findViewById(R.id.exercise3);
+        String[] exercise = {"Go for 30 minute walk","Mediate for 10 minutes", "Play any outdoor game"};
+        listView = rootView.findViewById(R.id.suggestions);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.checked_text_view,R.id.CTV,exercise);
+        listView.setAdapter(adapter);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         //
         exe1 = "";
         exe2 = "";
@@ -52,106 +61,47 @@ public class ExerciseFragment extends Fragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = sharedPreferences.edit();
         //
-        first.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (first.isChecked()){
-                    first.setChecked(false);
-                    editor.putString("exe1", "");
-                    editor.apply();
-                }else{
-                    Toast.makeText(getContext(), "WOW nice, keep it up", Toast.LENGTH_SHORT).show();
-                    exe1 = new SimpleDateFormat("dd-MM-yyyy").format(now);
-                    editor.putString("exe1", exe1);
-                    editor.apply();
-                    first.setChecked(true);
-                    ExerciseDialog exerciseDialog = new ExerciseDialog();
-                    exerciseDialog.show(getChildFragmentManager(),"exercise");
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            exerciseDialog.dismiss();
-                        }
-                    },3000);
-
-                }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            if (!listView.isItemChecked(position)) {
+                editor.putString(String.valueOf(position),"");
+                editor.apply();
+            } else {
+                @SuppressLint("SimpleDateFormat") String exe = new SimpleDateFormat("dd-MM-yyyy").format(now);
+                editor.putString(String.valueOf(position), exe);
+                editor.apply();
+                Toast.makeText(getContext(), "WOW nice, keep it up", Toast.LENGTH_LONG).show();
+                ExerciseDialog exerciseDialog = new ExerciseDialog();
+                exerciseDialog.show(getChildFragmentManager(),"exercise");
+                new Handler(Looper.getMainLooper()).postDelayed(exerciseDialog::dismiss,3000);
             }
         });
-
-        second.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (second.isChecked()){
-                    second.setChecked(false);
-                    editor.putString("exe2", "");
-                    editor.apply();
-                }else{
-                    Toast.makeText(getContext(), "WOW nice, keep it up", Toast.LENGTH_SHORT).show();
-                    exe2 = new SimpleDateFormat("dd-MM-yyyy").format(now);
-                    editor.putString("exe2", exe2);
-                    editor.apply();
-                    second.setChecked(true);
-                    ExerciseDialog exerciseDialog = new ExerciseDialog();
-                    exerciseDialog.show(getChildFragmentManager(),"exercise");
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            exerciseDialog.dismiss();
-                        }
-                    },3000);
-                }
-            }
-        });
-
-        third.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (third.isChecked()){
-                    third.setChecked(false);
-                    editor.putString("exe3", "");
-                    editor.apply();
-                }else{
-                    Toast.makeText(getContext(), "WOW nice, keep it up", Toast.LENGTH_SHORT).show();
-                    exe3 = new SimpleDateFormat("dd-MM-yyyy").format(now);
-                    editor.putString("exe3", exe3);
-                    editor.apply();
-                    third.setChecked(true);
-                    ExerciseDialog exerciseDialog = new ExerciseDialog();
-                    exerciseDialog.show(getChildFragmentManager(),"exercise");
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            exerciseDialog.dismiss();
-                        }
-                    },3000);
-                }
-            }
-        });
+        //
         return rootView;
     }
 
     private void loadPrefs() {
         currentDate = sharedPreferences.getString("current","");
-        exe1 = sharedPreferences.getString("exe1", "");
-        exe2 = sharedPreferences.getString("exe2","");
-        exe3 = sharedPreferences.getString("exe3","");
+        exe1 = sharedPreferences.getString("0", "");
+        exe2 = sharedPreferences.getString("1","");
+        exe3 = sharedPreferences.getString("2","");
         if (currentDate.equals(exe1) || currentDate.equals(exe2) || currentDate.equals(exe3)) {
             if (currentDate.equals(exe1)) {
-                first.setChecked(true);
+                listView.setItemChecked(0,true);
             }
             if (currentDate.equals(exe2)) {
-                second.setChecked(true);
+                listView.setItemChecked(1,true);
             }
             if (currentDate.equals(exe3)) {
-                third.setChecked(true);
+                listView.setItemChecked(2,true);
             }
         } else{
-            first.setChecked(false);
-            second.setChecked(false);
-            third.setChecked(false);
+            listView.setItemChecked(0,false);
+            listView.setItemChecked(1,false);
+            listView.setItemChecked(2,false);
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onResume() {
         super.onResume();
