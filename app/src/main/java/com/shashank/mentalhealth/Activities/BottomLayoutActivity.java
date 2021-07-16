@@ -1,8 +1,10 @@
 package com.shashank.mentalhealth.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,86 +25,114 @@ import org.jetbrains.annotations.NotNull;
 
 public class BottomLayoutActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_layout);
+        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         QuizFragment fragment1 = new QuizFragment();
 
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(
-                        android.R.anim.slide_in_left,  // enter
-                        android.R.anim.fade_out,  // exit
-                        android.R.anim.fade_in,   // popEnter
-                        android.R.anim.slide_out_right  // popExit
-                )
-                .replace(R.id.frame, fragment1)
-                .addToBackStack(null)
-                .commit();
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
+        String adapter =  getIntent().getStringExtra("adapter");
+        if (adapter == null){
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(
+                            android.R.anim.slide_in_left,  // enter
+                            android.R.anim.fade_out,  // exit
+                            android.R.anim.fade_in,   // popEnter
+                            android.R.anim.slide_out_right  // popExit
+                    )
+                    .replace(R.id.frame, fragment1)
+                    .commit();
+        } else {
+            ExerciseFragment fragment = new ExerciseFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(
+                            android.R.anim.slide_in_left,  // enter
+                            android.R.anim.fade_out,  // exit
+                            android.R.anim.fade_in,   // popEnter
+                            android.R.anim.slide_out_right  // popExit
+                    )
+                    .replace(R.id.frame, fragment)
+                    .commit();
+            navigationView.setSelectedItemId(R.id.page_4);
+        }
+
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.page_1:
                         // Respond to navigation item 1 click
-                        QuizFragment quizFragment = new QuizFragment();
-                        MusicFragment fragment = new MusicFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(
-                                        android.R.anim.slide_in_left,  // enter
-                                        android.R.anim.fade_out,  // exit
-                                        android.R.anim.fade_in,   // popEnter
-                                        android.R.anim.slide_out_right  // popExit
-                                )
-                                .replace(R.id.frame, quizFragment).detach(fragment)
-                                .addToBackStack(null)
-                                .commit();
-                        return true;
+                        if (navigationView.getSelectedItemId() != R.id.page_1) {
+                            QuizFragment quizFragment = new QuizFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .setCustomAnimations(
+                                            android.R.anim.slide_in_left,  // enter
+                                            android.R.anim.fade_out,  // exit
+                                            android.R.anim.fade_in,   // popEnter
+                                            android.R.anim.slide_out_right  // popExit
+                                    )
+                                    .replace(R.id.frame, quizFragment)
+                                    .commit();
+                            return true;
+                        }else {
+                            return false;
+                        }
                     case R.id.page_2:
-                        MusicFragment musicFragment = new MusicFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(
-                                        android.R.anim.slide_in_left,  // enter
-                                        android.R.anim.fade_out,  // exit
-                                        android.R.anim.fade_in,   // popEnter
-                                        android.R.anim.slide_out_right  // popExit
-                                )
-                                .replace(R.id.frame, musicFragment)
-                                .addToBackStack(null)
-                                .commit();
-                        // Respond to navigation item 1 click
-                        return true;
+                        if (navigationView.getSelectedItemId() != R.id.page_2) {
+                            MusicFragment musicFragment = new MusicFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .setCustomAnimations(
+                                            android.R.anim.slide_in_left,  // enter
+                                            android.R.anim.fade_out,  // exit
+                                            android.R.anim.fade_in,   // popEnter
+                                            android.R.anim.slide_out_right  // popExit
+                                    )
+                                    .replace(R.id.frame, musicFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                            // Respond to navigation item 1 click
+                            return true;
+                        } else {
+                            return false;
+                        }
                     case R.id.page_3:
-                        ChatFragment fragment1 = new ChatFragment();
-                        MusicFragment fragment2 = new MusicFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(
-                                        android.R.anim.slide_in_left,  // enter
-                                        android.R.anim.fade_out,  // exit
-                                        android.R.anim.fade_in,   // popEnter
-                                        android.R.anim.slide_out_right  // popExit
-                                )
-                                .replace(R.id.frame, fragment1).detach(fragment2)
-                                .addToBackStack(null)
-                                .commit();
-                        // Respond to navigation item 1 click
-                        return true;
+                        if (navigationView.getSelectedItemId() != R.id.page_3) {
+                            ChatFragment fragment1 = new ChatFragment(navigationView);
+                            getSupportFragmentManager().beginTransaction()
+                                    .setCustomAnimations(
+                                            android.R.anim.slide_in_left,  // enter
+                                            android.R.anim.fade_out,  // exit
+                                            android.R.anim.fade_in,   // popEnter
+                                            android.R.anim.slide_out_right  // popExit
+                                    )
+                                    .replace(R.id.frame, fragment1)
+                                    .addToBackStack(null)
+                                    .commit();
+                            // Respond to navigation item 1 click
+                            return true;
+                        } else {
+                            return false;
+                        }
                     case R.id.page_4:
-                        ExerciseFragment exerciseFragment = new ExerciseFragment();
-                        MusicFragment fragment3 = new MusicFragment();
-                        getSupportFragmentManager().beginTransaction()
-                                .setCustomAnimations(
-                                        android.R.anim.slide_in_left,  // enter
-                                        android.R.anim.fade_out,  // exit
-                                        android.R.anim.fade_in,   // popEnter
-                                        android.R.anim.slide_out_right  // popExit
-                                )
-                                .replace(R.id.frame, exerciseFragment).detach(fragment3)
-                                .addToBackStack(null)
-                                .commit();
-                        // Respond to navigation item 1 click
-                        return true;
+                        if (navigationView.getSelectedItemId() != R.id.page_4) {
+                            ExerciseFragment exerciseFragment = new ExerciseFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .setCustomAnimations(
+                                            android.R.anim.slide_in_left,  // enter
+                                            android.R.anim.fade_out,  // exit
+                                            android.R.anim.fade_in,   // popEnter
+                                            android.R.anim.slide_out_right  // popExit
+                                    )
+                                    .replace(R.id.frame, exerciseFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                            // Respond to navigation item 1 click
+                            return true;
+                        }else {
+                            return false;
+                        }
                     default:
                         return false;
                 }

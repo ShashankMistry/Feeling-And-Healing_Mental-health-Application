@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.Toast;
 
-import com.shashank.mentalhealth.Activities.ExerciseActivity;
 import com.shashank.mentalhealth.Dialog.ExerciseDialog;
 import com.shashank.mentalhealth.R;
 

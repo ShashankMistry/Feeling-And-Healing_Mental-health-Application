@@ -46,7 +46,7 @@ public class QuizActivity extends AppCompatActivity {
         ArrayList<String> questions = new ArrayList<>();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
-        dbHelper.fetchQuestions(intent.getStringExtra("test"),questions);
+        dbHelper.fetchQuestions(intent.getStringExtra("test"), questions);
 //        Toast.makeText(this, questions.size()+""+ intent.getStringExtra("test"), Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
         String name = Objects.requireNonNull(auth.getCurrentUser()).getDisplayName();
@@ -54,7 +54,9 @@ public class QuizActivity extends AppCompatActivity {
         if (name != null) {
             Name = name;
         } else {
-            Name = sharedPreferences.getString("edit", "Friend");
+            String withAt = sharedPreferences.getString("edit", "Friend");
+            String[] email = withAt.split("@");
+            Name = email[0];
         }
         textView.setText("Hello , \n" + Name);
 
@@ -100,9 +102,9 @@ public class QuizActivity extends AppCompatActivity {
                     tv.setText(questions.get(flag));
                 } else {
                     Intent in = new Intent(getApplicationContext(), ResultActivity.class);
-                    in.putExtra("result",correct);
+                    in.putExtra("result", correct);
                     in.putExtra("user", Name);
-                    in.putExtra("test",intent.getStringExtra("test"));
+                    in.putExtra("test", intent.getStringExtra("test"));
                     startActivity(in);
                     finish();
                     overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
@@ -120,6 +122,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

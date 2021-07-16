@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -25,7 +26,6 @@ import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
 import com.google.common.collect.Lists;
-import com.shashank.mentalhealth.Activities.ChatActivity;
 import com.shashank.mentalhealth.Adapters.ChatAdapter;
 import com.shashank.mentalhealth.BotReply;
 import com.shashank.mentalhealth.R;
@@ -50,9 +50,11 @@ public class ChatFragment extends Fragment implements BotReply {
     private SessionName sessionName;
     private String uuid = UUID.randomUUID().toString();
     private String TAG = "mainactivity";
+    private BottomNavigationView navigationView;
 
-    public ChatFragment() {
+    public ChatFragment(BottomNavigationView navigationView) {
         // Required empty public constructor
+        this.navigationView = navigationView;
     }
 
 
@@ -61,14 +63,14 @@ public class ChatFragment extends Fragment implements BotReply {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_chat, container, false);
         // Inflate the layout for this fragment
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("SAGE");
         chatView = rootView.findViewById(R.id.chatView);
         editMessage = rootView.findViewById(R.id.editMessage);
         btnSend = rootView.findViewById(R.id.btnSend);
 
-        chatAdapter = new ChatAdapter(getContext(), messageList, getActivity());
+        chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), navigationView);
         chatView.setAdapter(chatAdapter);
 
         btnSend.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,6 @@ package com.shashank.mentalhealth.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shashank.mentalhealth.Activities.ExerciseActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shashank.mentalhealth.models.Message;
 import com.shashank.mentalhealth.R;
 
@@ -24,11 +23,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private List<Message> messageList;
     private Activity activity;
     private Context mContext;
+    private BottomNavigationView navigationView;
 
-    public ChatAdapter(Context context, List<Message> messageList, Activity activity) {
+    public ChatAdapter(Context context, List<Message> messageList, Activity activity, BottomNavigationView navigationView) {
         this.messageList = messageList;
         this.activity = activity;
         mContext = context;
+        this.navigationView = navigationView;
     }
 
 
@@ -51,9 +52,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(mContext, ExerciseActivity.class);
-                        mContext.startActivity(intent);
-                        activity.overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                        navigationView.setSelectedItemId(R.id.page_4);
                     }
                 }, 3000);
 
