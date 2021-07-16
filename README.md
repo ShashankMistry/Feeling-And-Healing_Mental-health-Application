@@ -9,6 +9,7 @@ An Android application that helps people who suffers from mental illness by taki
 ## Highlights
 * Material design
 * Streaming Music
+* lottie animations
 * Graph implementation
 * Blogs/Articles about mental health
 * Music stops when audio focus changes
