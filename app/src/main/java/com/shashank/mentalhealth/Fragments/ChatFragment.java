@@ -1,12 +1,16 @@
 package com.shashank.mentalhealth.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,31 +30,39 @@ import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
 import com.google.common.collect.Lists;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shashank.mentalhealth.Adapters.ChatAdapter;
 import com.shashank.mentalhealth.BotReply;
+import com.shashank.mentalhealth.DB.DBHelper;
 import com.shashank.mentalhealth.R;
 import com.shashank.mentalhealth.SendMessageInBg;
 import com.shashank.mentalhealth.models.Message;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class ChatFragment extends Fragment implements BotReply {
-    RecyclerView chatView;
-    ChatAdapter chatAdapter;
-    List<Message> messageList = new ArrayList<>();
-    EditText editMessage;
-    ImageButton btnSend;
-
-    //dialogFlow
-    private SessionsClient sessionsClient;
-    private SessionName sessionName;
-    private String uuid = UUID.randomUUID().toString();
     private String TAG = "mainactivity";
+    FirebaseAuth auth;
+    ImageButton btnSend;
+    ChatAdapter chatAdapter;
+    RecyclerView chatView;
+    DBHelper dbHelper;
+    EditText editMessage;
+    ArrayList<Message> messageList = new ArrayList<>();
     private BottomNavigationView navigationView;
+    private SessionName sessionName;
+    private SessionsClient sessionsClient;
+    SharedPreferences sharedPreferences;
+    private String uuid = UUID.randomUUID().toString();
+
 
     public ChatFragment(BottomNavigationView navigationView) {
         // Required empty public constructor
@@ -69,9 +81,31 @@ public class ChatFragment extends Fragment implements BotReply {
         chatView = rootView.findViewById(R.id.chatView);
         editMessage = rootView.findViewById(R.id.editMessage);
         btnSend = rootView.findViewById(R.id.btnSend);
-
-        chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), navigationView);
-        chatView.setAdapter(chatAdapter);
+        auth = FirebaseAuth.getInstance();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        FirebaseUser currentUser = auth.getCurrentUser();
+        Objects.requireNonNull(currentUser);
+        String name = currentUser.getDisplayName();
+        String Name;
+        if (name != null) {
+            Name = name;
+//            Toast.makeText(getContext(), Name+"", Toast.LENGTH_SHORT).show();
+        } else {
+            Name = sharedPreferences.getString("edit", "Friend").split("@")[0];
+        }
+        Gson gson = new Gson();
+        DBHelper dbHelper = new DBHelper(getContext(),null ,1);
+        Type type = new TypeToken<ArrayList<Message>>() {}.getType();
+        new Thread(() -> {
+            messageList =  gson.fromJson(dbHelper.fetchChat(Name), type);
+            if (messageList == null) {
+                messageList = new ArrayList<>();
+            }
+            requireActivity().runOnUiThread(()->{
+                chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), navigationView, Name);
+                chatView.setAdapter(chatAdapter);
+            });
+        }).start();
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {

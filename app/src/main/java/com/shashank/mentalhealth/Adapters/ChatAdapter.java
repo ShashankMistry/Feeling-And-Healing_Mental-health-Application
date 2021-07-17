@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.shashank.mentalhealth.DB.DBHelper;
 import com.shashank.mentalhealth.models.Message;
 import com.shashank.mentalhealth.R;
 
@@ -23,13 +25,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private List<Message> messageList;
     private Activity activity;
     private Context mContext;
+    private String name;
     private BottomNavigationView navigationView;
 
-    public ChatAdapter(Context context, List<Message> messageList, Activity activity, BottomNavigationView navigationView) {
+    public ChatAdapter(Context context, List<Message> messageList, Activity activity, BottomNavigationView navigationView, String name) {
         this.messageList = messageList;
         this.activity = activity;
         mContext = context;
         this.navigationView = navigationView;
+        this.name = name;
     }
 
 
@@ -47,6 +51,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         if (isReceived) {
             holder.messageReceive.setVisibility(View.VISIBLE);
             holder.messageSend.setVisibility(View.GONE);
+            DBHelper dbHelper = new DBHelper(mContext,null,1);
+            Gson gson = new Gson();
+            String chat = gson.toJson(messageList);
+            dbHelper.insertChat(name,chat);
             if (message.contains("exercise")) {
                 holder.messageReceive.setText(message + "\n\n" + "I'll redirect you to exercise page");
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {

@@ -106,9 +106,14 @@ public class MusicFragment extends Fragment {
                         }
                         button.setForeground(requireActivity().getDrawable(R.drawable.play96));
                         int audioSessionId = mediaPlayer.getAudioSessionId();
-                        if (audioSessionId != -1) {
-                            mVisualizer.setAudioSessionId(audioSessionId);
+                        try {
+                            if (audioSessionId != -1) {
+                                mVisualizer.setAudioSessionId(audioSessionId);
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
+
                     } else {
                         Toast.makeText(getContext(), "Error Loading Music", Toast.LENGTH_SHORT).show();
                     }
