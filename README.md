@@ -15,7 +15,7 @@ An Android application that helps people who suffers from mental illness by taki
 * Music stops when audio focus changes
 * in-app web browser with chrome custom tabs
 * Storing data of every users in SQlite databse
-* Three different test for different mental health problems
+* Three different tests for different mental health problems
 * Firebase for authentication of user with email id or google
 * Implementation of chat bot user can talk to chat bot about mental health
 
@@ -54,4 +54,4 @@ implementation "androidx.browser:browser:1.3.0"
 ```
 
 ## Demo
-
+https://youtu.be/j6rsHrb7ZGY
