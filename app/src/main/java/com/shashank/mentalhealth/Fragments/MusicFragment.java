@@ -291,10 +291,32 @@ public class MusicFragment extends Fragment {
         if (mVisualizer != null) {
             mVisualizer.release();
         }
-        currentTime.setText("00:00");
-        totalTime.setText("00:00");
-        seekBar.setValue(0.0f);
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                currentTime.setText("00:00");
+                totalTime.setText("00:00");
+                seekBar.setValue(0.0f);
+            }
+        });
     }
+
+//    public void releaseMediaResources(TextView c, TextView t, Slider seekBar) {
+//        if (mediaPlayer != null) {
+//            mediaPlayer.release();
+//            mediaPlayer = null;
+//            mAudioManager.abandonAudioFocus(mFocusChangeListener);
+//        }
+//        requireActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                c.setText("00:00");
+//                t.setText("00:00");
+//                seekBar.setValue(0.0f);
+//            }
+//        });
+//
+//    }
 
     public String getCurrentLink() {
         return links[random.nextInt(15)];
