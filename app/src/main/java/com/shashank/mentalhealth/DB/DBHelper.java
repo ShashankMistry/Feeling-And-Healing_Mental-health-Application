@@ -29,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS BIPOLAR;");
         db.execSQL("DROP TABLE IF EXISTS ANXIETY;");
         db.execSQL("DROP TABLE IF EXISTS QUESTIONS");
+        db.execSQL("DROP TABLE IF EXISTS CHAT");
         onCreate(db);
     }
 
