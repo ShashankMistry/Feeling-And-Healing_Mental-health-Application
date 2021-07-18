@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center"
+        android:gravity="bottom"
         android:orientation="vertical">
 
 
@@ -43,11 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:foreground="@drawable/button_bg"
-            android:fontFamily="monospace"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/asap"
+            android:foreground="@drawable/btn_ripple_bg"
             android:text="depression quiz"
-            android:background="@drawable/btn_ripple_bg"
-            android:textColor="#FDFDFD"
+            android:textColor="#bbe1fa"
             android:textSize="22sp"
             app:rippleColor="#FDFDFD" />
 
@@ -57,11 +57,11 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:foreground="@drawable/button_bg"
-            android:fontFamily="monospace"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/asap"
+            android:foreground="@drawable/btn_ripple_bg"
             android:text="bipolar quiz"
-            android:background="@drawable/btn_ripple_bg"
-            android:textColor="#FFFFFF"
+            android:textColor="#bbe1fa"
             android:textSize="22sp" />
 
         <Button
@@ -70,11 +70,11 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_margin="8dp"
-            android:foreground="@drawable/button_bg"
-            android:fontFamily="monospace"
+            android:background="@drawable/button_bg"
+            android:fontFamily="@font/asap"
+            android:foreground="@drawable/btn_ripple_bg"
             android:text="anxiety quiz"
-            android:background="@drawable/btn_ripple_bg"
-            android:textColor="#FFFFFF"
+            android:textColor="#bbe1fa"
             android:textSize="22sp" />
 
     </LinearLayout>

@@ -9,5 +9,14 @@
     <string name="enter_your_name">Enter your name</string>
     <!-- Strings used for fragments for navigation -->
     <string name="iconsby">Alzheimer icon by Icons8</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="music"><b>MUSIC</b></string>
+    <string name="quiz"><b>QUIZ</b></string>
+    <string name="sage"><b>SAGE</b></string>
+    <string name="exercise"><b>EXERCISE</b></string>
+    <string name="exe_title"><u>Exercises we recommend for depression and anxiety.</u></string>
+
+    <!--    AIzaSyDJtRHjrgUhZaE20XjrhbtQm-yl1ra3UAI-->
 
 </resources>

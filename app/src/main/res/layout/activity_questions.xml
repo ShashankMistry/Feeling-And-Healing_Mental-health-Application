@@ -81,9 +81,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="84dp"
         android:layout_marginEnd="16dp"
-        android:foreground="@drawable/button_bg"
-        android:background="@drawable/btn_ripple_bg"
-        android:fontFamily="monospace"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/asap"
+        android:foreground="@drawable/btn_ripple_bg"
         android:text="@string/next_question"
         android:textColor="#ffffff"
         android:textSize="22sp" />
@@ -97,10 +97,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="38dp"
-        android:foreground="@drawable/button_bg"
-        android:fontFamily="monospace"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/asap"
+        android:foreground="@drawable/btn_ripple_bg"
         android:text="@string/quit"
-        android:background="@drawable/btn_ripple_bg"
         android:textColor="#ffffff"
         android:textSize="18sp" />
 

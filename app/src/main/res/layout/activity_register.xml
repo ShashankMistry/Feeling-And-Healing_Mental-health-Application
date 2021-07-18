@@ -48,56 +48,99 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/et_name_reg"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_email_reg"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_bf"
-                android:fontFamily="monospace"
                 android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:padding="10dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#90FFFFFF" />
+                app:endIconMode="clear_text"
+                app:hintTextColor="#A5A4A4">
 
-            <EditText
-                android:id="@+id/et_password_reg"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_email_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textEmailAddress"
+                    android:padding="10dp"
+                    android:textColor="#bbe1fa"
+                    android:textColorHint="#BAB1B1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_pass_reg"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_bf"
-                android:inputType="textPassword"
-                android:fontFamily="monospace"
                 android:hint="Password"
-                android:padding="10dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#90FFFFFF" />
+                app:hintTextColor="#A5A4A4"
+                app:passwordToggleEnabled="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_password_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textColor="#bbe1fa"
+                    android:textColorHint="#BAB1B1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/et_reenter"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_reenter"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_bf"
-                android:inputType="textPassword"
-                android:fontFamily="monospace"
-                android:hint="Reenter Password"
-                android:padding="10dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#90FFFFFF" />
+                android:hint="Confirm Password"
+                app:hintTextColor="#A5A4A4"
+                app:passwordToggleEnabled="true">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_reenter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textColor="#bbe1fa"
+                    android:textColorHint="#BAB1B1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_reg"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:foreground="@drawable/edittext_bf"
-                android:fontFamily="monospace"
-                android:text="Enter"
-                android:background="?selectableItemBackgroundBorderless"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_reg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="monospace"
+                    android:foreground="@drawable/btn_ripple_bg"
+                    android:padding="10dp"
+                    android:text="Sign up"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/google_reg"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_margin="10dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/google" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

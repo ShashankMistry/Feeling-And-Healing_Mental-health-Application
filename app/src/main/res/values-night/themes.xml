@@ -16,6 +16,30 @@
         <item name="android:textColorPrimary">#59737C</item>
         <item name="editTextStyle">@style/MyEditTextTheme</item>
         <item name="android:navigationBarColor">#00000000</item>
+
+<!--        new -->
+        <!-- New MaterialComponents attributes. -->
+        <item name="colorSurface">@color/my_app_surface_color</item>
+        <item name="colorOnPrimary">@color/my_app_color_on_primary</item>
+        <item name="colorOnSecondary">@color/my_app_color_on_secondary</item>
+        <item name="colorOnBackground">@color/mtrl_textinput_default_box_stroke_color</item>
+        <item name="colorOnError">@color/my_app_color_on_error</item>
+        <item name="colorOnSurface">@color/my_app_color_on_surface</item>
+        <item name="scrimBackground">@color/mtrl_textinput_default_box_stroke_color</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.MaterialComponents.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.MaterialComponents.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.MaterialComponents.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.MaterialComponents.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.MaterialComponents.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.MaterialComponents.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.MaterialComponents.Overline</item>
+
     </style>
 
     <style name="MyEditTextTheme" parent="Widget.AppCompat.EditText">
@@ -51,5 +75,11 @@
         <item name="textAppearanceButton" type="style">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="textAppearanceOverline" type="style">@style/TextAppearance.MaterialComponents.Overline</item>
     </style>
+
+    <style name="myBottomView" parent="Theme.MaterialComponents">
+        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
+        <item name="colorPrimary">#fff</item>
+    </style>
+
 
 </resources>
