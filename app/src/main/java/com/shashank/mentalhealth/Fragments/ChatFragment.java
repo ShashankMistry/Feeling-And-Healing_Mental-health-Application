@@ -41,6 +41,8 @@ import com.shashank.mentalhealth.R;
 import com.shashank.mentalhealth.SendMessageInBg;
 import com.shashank.mentalhealth.models.Message;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -64,14 +66,13 @@ public class ChatFragment extends Fragment implements BotReply {
     private String uuid = UUID.randomUUID().toString();
 
 
-    public ChatFragment(BottomNavigationView navigationView) {
+    public ChatFragment() {
         // Required empty public constructor
-        this.navigationView = navigationView;
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_chat, container, false);
         // Inflate the layout for this fragment
@@ -89,20 +90,19 @@ public class ChatFragment extends Fragment implements BotReply {
         String Name;
         if (name != null) {
             Name = name;
-//            Toast.makeText(getContext(), Name+"", Toast.LENGTH_SHORT).show();
         } else {
             Name = sharedPreferences.getString("edit", "Friend").split("@")[0];
         }
-        Gson gson = new Gson();
-        DBHelper dbHelper = new DBHelper(getContext(),null ,1);
-        Type type = new TypeToken<ArrayList<Message>>() {}.getType();
         new Thread(() -> {
+            Gson gson = new Gson();
+            DBHelper dbHelper = new DBHelper(getContext(),null ,1);
+            Type type = new TypeToken<ArrayList<Message>>() {}.getType();
             messageList =  gson.fromJson(dbHelper.fetchChat(Name), type);
             if (messageList == null) {
                 messageList = new ArrayList<>();
             }
             requireActivity().runOnUiThread(()->{
-                chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), navigationView, Name);
+                chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), Name);
                 chatView.setAdapter(chatAdapter);
             });
         }).start();

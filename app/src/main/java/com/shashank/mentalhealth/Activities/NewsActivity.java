@@ -116,11 +116,17 @@ public class NewsActivity extends AppCompatActivity {
                 String url = n.getUrl();
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabColorSchemeParams darkParams = new CustomTabColorSchemeParams.Builder()
-                        .setToolbarColor(ContextCompat.getColor(NewsActivity.this,R.color.colorPrimary))
+                        .setToolbarColor(ContextCompat.getColor(NewsActivity.this, R.color.colorPrimary))
                         .build();
                 builder.setDefaultColorSchemeParams(darkParams);
                 CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(NewsActivity.this, Uri.parse(url));
+                try {
+                    customTabsIntent.intent.setPackage("com.android.chrome");
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    customTabsIntent.launchUrl(NewsActivity.this, Uri.parse(url));
+                }
             }
         });
     }

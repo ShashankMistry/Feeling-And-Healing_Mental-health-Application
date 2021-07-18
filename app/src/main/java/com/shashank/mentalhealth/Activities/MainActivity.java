@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.hide();
         //window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS); // if ui messed up by using translucent navigation 
-        nameText = findViewById(R.id.et_name);
+        nameText = findViewById(R.id.et_email);
+        TextInputLayout textInputLayoutEmail = findViewById(R.id.input_email);
+        TextInputLayout textInputLayoutPass = findViewById(R.id.input_pass);
         sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         LoadName();
@@ -123,10 +126,22 @@ public class MainActivity extends AppCompatActivity {
                     });
                 } else {
                     if (!validate(email)) {
-                        nameText.setError("Enter valid email address");
+                        textInputLayoutEmail.setError("Enter valid email address");
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                textInputLayoutEmail.setError(null);
+                            }
+                        },1500);
                     }
                     if (pass.length() < 6) {
-                        password.setError("Enter valid password");
+                        textInputLayoutPass.setError("Password must be greater than 6 characters");
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                textInputLayoutPass.setError(null);
+                            }
+                        },1500);
                     }
                     dialog.dismiss();
                 }

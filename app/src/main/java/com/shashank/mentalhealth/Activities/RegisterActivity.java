@@ -1,37 +1,30 @@
 package com.shashank.mentalhealth.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.kwabenaberko.newsapilib.network.APIClient;
 import com.shashank.mentalhealth.R;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 23;
     EditText email_reg, pass_1, pass_2;
     FirebaseAuth auth;
+    TextInputLayout textInputLayoutEmail, textInputLayoutPass, textInputLayoutRePass;
     private GoogleSignInClient mGoogleSignInClient;
     AlertDialog dialog;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -54,9 +48,12 @@ public class RegisterActivity extends AppCompatActivity {
         assert actionBar != null;
         actionBar.hide();
         //
-        email_reg = findViewById(R.id.et_name_reg);
+        email_reg = findViewById(R.id.et_email_reg);
         pass_1 = findViewById(R.id.et_password_reg);
         pass_2 = findViewById(R.id.et_reenter);
+        textInputLayoutEmail = findViewById(R.id.input_email_reg);
+        textInputLayoutPass = findViewById(R.id.input_pass_reg);
+        textInputLayoutRePass = findViewById(R.id.input_reenter);
         Button reg = findViewById(R.id.btn_reg);
         Button google_reg = findViewById(R.id.google_reg);
         auth = FirebaseAuth.getInstance();
@@ -73,38 +70,35 @@ public class RegisterActivity extends AppCompatActivity {
         builder.setView(R.layout.progress);
         dialog = builder.create();
         //
-        reg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = email_reg.getText().toString();
-                String pass1 = pass_1.getText().toString();
-                String pass2 = pass_2.getText().toString();
-                if (validate(email) && pass1.length() > 6 && pass2.length() > 6) {
-                    if (pass1.equals(pass2)) {
-                        dialog.show();
-                        register(email, pass1);
-                    } else {
-                        pass_1.setError("passwords do not match");
-                    }
+        reg.setOnClickListener(v -> {
+            String email = email_reg.getText().toString();
+            String pass1 = pass_1.getText().toString();
+            String pass2 = pass_2.getText().toString();
+            if (validate(email) && pass1.length() > 5 && pass2.length() > 5) {
+                if (pass1.equals(pass2)) {
+                    dialog.show();
+                    register(email, pass1);
                 } else {
-                    if (!validate(email)) {
-                        email_reg.setError("Enter valid email address");
-                    }
-                    if (pass1.length() < 6) {
-                        pass_1.setError("password must be more than 6 letters");
-                    }
-                    if (pass2.length() < 6) {
-                        pass_2.setError("password must be more than 6 letters");
-                    }
+                    textInputLayoutPass.setError("passwords do not match");
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> textInputLayoutPass.setError(null),2000);
+
+                }
+            } else {
+                if (!validate(email)) {
+                    textInputLayoutEmail.setError("Enter valid email address");
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> textInputLayoutEmail.setError(null),2000);
+                }
+                if (pass1.length() < 6) {
+                    textInputLayoutPass.setError("password must be more than 6 letters");
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> textInputLayoutPass.setError(null),2000);
+                }
+                if (pass2.length() < 6) {
+                    textInputLayoutRePass.setError("password must be more than 6 letters");
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> textInputLayoutRePass.setError(null),2000);
                 }
             }
         });
-        google_reg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        google_reg.setOnClickListener(v -> signIn());
     }
 
     public static boolean validate(String emailStr) {
@@ -113,29 +107,23 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(String e, String p) {
-        auth.createUserWithEmailAndPassword(e, p).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
+        auth.createUserWithEmailAndPassword(e, p).addOnCompleteListener(RegisterActivity.this, task -> {
+            if (task.isSuccessful()) {
+                dialog.dismiss();
+                SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("edit", e);
+                editor.apply();
+                Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            } else {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     dialog.dismiss();
-                    SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("edit", e);
-                    editor.apply();
-                    Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                } else {
-                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "Error registering you", Toast.LENGTH_SHORT).show();
-                        }
-                    }, 3000);
+                    Toast.makeText(RegisterActivity.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                }, 3000);
 
-                }
             }
         });
     }
@@ -168,20 +156,17 @@ public class RegisterActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
-                            startActivity(intent);
-                            finish();
-                            dialog.dismiss();
-                            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(RegisterActivity.this, "Error registering you", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(RegisterActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
+                        startActivity(intent);
+                        finish();
+                        dialog.dismiss();
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(RegisterActivity.this, "Error registering you", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

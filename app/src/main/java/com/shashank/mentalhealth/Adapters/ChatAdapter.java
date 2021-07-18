@@ -26,13 +26,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private Activity activity;
     private Context mContext;
     private String name;
-    private BottomNavigationView navigationView;
 
-    public ChatAdapter(Context context, List<Message> messageList, Activity activity, BottomNavigationView navigationView, String name) {
+    public ChatAdapter(Context context, List<Message> messageList, Activity activity, String name) {
         this.messageList = messageList;
         this.activity = activity;
         mContext = context;
-        this.navigationView = navigationView;
         this.name = name;
     }
 
@@ -51,22 +49,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         if (isReceived) {
             holder.messageReceive.setVisibility(View.VISIBLE);
             holder.messageSend.setVisibility(View.GONE);
-            DBHelper dbHelper = new DBHelper(mContext,null,1);
+            DBHelper dbHelper = new DBHelper(mContext, null, 1);
             Gson gson = new Gson();
             String chat = gson.toJson(messageList);
-            dbHelper.insertChat(name,chat);
-            if (message.contains("exercise")) {
-                holder.messageReceive.setText(message + "\n\n" + "I'll redirect you to exercise page");
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        navigationView.setSelectedItemId(R.id.page_4);
-                    }
-                }, 3000);
-
-            } else {
-                holder.messageReceive.setText(message);
-            }
+            dbHelper.insertChat(name, chat);
+            holder.messageReceive.setText(message);
         } else {
             holder.messageSend.setVisibility(View.VISIBLE);
             holder.messageReceive.setVisibility(View.GONE);

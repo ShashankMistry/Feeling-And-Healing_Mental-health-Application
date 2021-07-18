@@ -1,6 +1,8 @@
 package com.shashank.mentalhealth.Fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -23,10 +25,17 @@ import androidx.fragment.app.Fragment;
 
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 import com.google.android.material.slider.Slider;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.shashank.mentalhealth.R;
 
 import java.util.Random;
 
+@SuppressLint("UseCompatLoadingForDrawables")
 public class MusicFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private AudioManager mAudioManager;
@@ -89,41 +98,8 @@ public class MusicFragment extends Fragment {
         mAudioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
         volume.setValueTo(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volume.setValue(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
-        try {
-            new Thread(() -> {
-                mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(getCurrentLink())); //peace music
-                requireActivity().runOnUiThread(() -> {
-                    if (mAudioManager != null && isNetworkAvailable()) {
-                        mediaPlayer.setLooping(true);
-                        duration = mediaPlayer.getDuration();
-                        seekBar.setValueTo(duration / 1000f);
-                        int Minutes = (int) duration / (1000 * 60);
-                        int Seconds = (int) duration % ((1000 * 60 * 60)) % (1000 * 60) / 1000;
-                        if (Seconds < 10) {
-                            totalTime.setText(Minutes + ":0" + Seconds);
-                        } else {
-                            totalTime.setText(Minutes + ":" + Seconds);
-                        }
-                        button.setForeground(requireActivity().getDrawable(R.drawable.play96));
-                        int audioSessionId = mediaPlayer.getAudioSessionId();
-                        try {
-                            if (audioSessionId != -1) {
-                                mVisualizer.setAudioSessionId(audioSessionId);
-                            }
-                        } catch (Exception e){
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        Toast.makeText(getContext(), "Error Loading Music", Toast.LENGTH_SHORT).show();
-                    }
-
-                });
-            }).start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        button.setForeground(requireActivity().getDrawable(R.drawable.loading96));
+//
+        button.setForeground(requireActivity().getDrawable(R.drawable.play96));
 
         button.setOnClickListener(v -> {
             mAudioManager.requestAudioFocus(mFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -146,8 +122,27 @@ public class MusicFragment extends Fragment {
                                     totalTime.setText(Minutes + ":" + Seconds);
                                 }
                                 int audioSessionId = mediaPlayer.getAudioSessionId();
-                                if (audioSessionId != -1) {
-                                    mVisualizer.setAudioSessionId(audioSessionId);
+                                try {
+                                    if (audioSessionId != -1) {
+                                        mVisualizer.setAudioSessionId(audioSessionId);
+                                    }
+                                } catch (Exception e){
+                                    Dexter.withContext(getContext()).withPermission(Manifest.permission.RECORD_AUDIO).withListener(new PermissionListener() {
+                                        @Override
+                                        public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+
+                                        }
+
+                                        @Override
+                                        public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+
+                                        }
+
+                                        @Override
+                                        public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                                            permissionToken.continuePermissionRequest();
+                                        }
+                                    }).onSameThread().check();
                                 }
                                 mediaPlayer.start();
                                 button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
@@ -266,6 +261,7 @@ public class MusicFragment extends Fragment {
     }
 
 
+
     @Override
     public void onPause() {
         super.onPause();
@@ -287,6 +283,7 @@ public class MusicFragment extends Fragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void releaseMediaResources() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
@@ -296,32 +293,12 @@ public class MusicFragment extends Fragment {
         if (mVisualizer != null) {
             mVisualizer.release();
         }
-        requireActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                currentTime.setText("00:00");
-                totalTime.setText("00:00");
-                seekBar.setValue(0.0f);
-            }
+        requireActivity().runOnUiThread(() -> {
+            currentTime.setText("00:00");
+            totalTime.setText("00:00");
+            seekBar.setValue(0.0f);
         });
     }
-
-//    public void releaseMediaResources(TextView c, TextView t, Slider seekBar) {
-//        if (mediaPlayer != null) {
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//            mAudioManager.abandonAudioFocus(mFocusChangeListener);
-//        }
-//        requireActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                c.setText("00:00");
-//                t.setText("00:00");
-//                seekBar.setValue(0.0f);
-//            }
-//        });
-//
-//    }
 
     public String getCurrentLink() {
         return links[random.nextInt(15)];
