@@ -11,15 +11,12 @@ An Android application that helps people who suffers from mental illness by taki
 * Streaming Music
 * lottie animations
 * Graph implementation
+* Implementation of chat bot
 * Permission handling with Dexter
 * Splash screen with motion layout
 * Blogs/Articles about mental health
-* Music stops when audio focus changes
 * in-app web browser with chrome custom tabs
-* Storing data of every users in SQlite databse
-* Three different tests for different mental health problems
 * Firebase for authentication of user with email id or google
-* Implementation of chat bot user can talk to chat bot about mental health
 
 ## Chat-bot
 * Created chat bot with dialogFlow to provide better treatment to patient, you have to put your credential.json file into raw folder.
