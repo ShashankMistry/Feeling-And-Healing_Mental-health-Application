@@ -1,24 +1,23 @@
 package com.shashank.mentalhealth.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -26,18 +25,27 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.shashank.mentalhealth.Fragments.AccountFragment;
 import com.shashank.mentalhealth.Fragments.ChatFragment;
 import com.shashank.mentalhealth.Fragments.ExerciseFragment;
 import com.shashank.mentalhealth.Fragments.MusicFragment;
 import com.shashank.mentalhealth.Fragments.QuizFragment;
 import com.shashank.mentalhealth.R;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+@SuppressWarnings("deprecation")
 public class BottomLayoutActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,81 +61,91 @@ public class BottomLayoutActivity extends AppCompatActivity {
                 ).replace(R.id.frame, fragment1)
                 .commit();
         checkPermission();
-        navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.page_1:
-                        // Respond to navigation item 1 click
-                        if (navigationView.getSelectedItemId() != R.id.page_1) {
-                            QuizFragment quizFragment = new QuizFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(
-                                            android.R.anim.slide_in_left,  // enter
-                                            android.R.anim.fade_out,  // exit
-                                            android.R.anim.fade_in,   // popEnter
-                                            android.R.anim.slide_out_right  // popExit
-                                    )
-                                    .replace(R.id.frame, quizFragment)
-                                    .commit();
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case R.id.page_2:
-                        if (navigationView.getSelectedItemId() != R.id.page_2) {
-                            MusicFragment musicFragment = new MusicFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(
-                                            android.R.anim.slide_in_left,  // enter
-                                            android.R.anim.fade_out,  // exit
-                                            android.R.anim.fade_in,   // popEnter
-                                            android.R.anim.slide_out_right  // popExit
-                                    )
-                                    .replace(R.id.frame, musicFragment)
-                                    .commit();
-                            // Respond to navigation item 1 click
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case R.id.page_3:
-                        if (navigationView.getSelectedItemId() != R.id.page_3) {
-                            ChatFragment fragment1 = new ChatFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(
-                                            android.R.anim.slide_in_left,  // enter
-                                            android.R.anim.fade_out,  // exit
-                                            android.R.anim.fade_in,   // popEnter
-                                            android.R.anim.slide_out_right  // popExit
-                                    )
-                                    .replace(R.id.frame, fragment1)
-                                    .commit();
-                            // Respond to navigation item 1 click
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    case R.id.page_4:
-                        if (navigationView.getSelectedItemId() != R.id.page_4) {
-                            ExerciseFragment exerciseFragment = new ExerciseFragment();
-                            getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(
-                                            android.R.anim.slide_in_left,  // enter
-                                            android.R.anim.fade_out,  // exit
-                                            android.R.anim.fade_in,   // popEnter
-                                            android.R.anim.slide_out_right  // popExit
-                                    )
-                                    .replace(R.id.frame, exerciseFragment)
-                                    .commit();
-                            // Respond to navigation item 1 click
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    default:
+        navigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.page_1:
+                    // Respond to navigation item 1 click
+                    if (navigationView.getSelectedItemId() != R.id.page_1) {
+                        QuizFragment quizFragment = new QuizFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(
+                                        android.R.anim.slide_in_left,  // enter
+                                        android.R.anim.fade_out,  // exit
+                                        android.R.anim.fade_in,   // popEnter
+                                        android.R.anim.slide_out_right  // popExit
+                                )
+                                .replace(R.id.frame, quizFragment)
+                                .commit();
+                        return true;
+                    } else {
                         return false;
-                }
+                    }
+                case R.id.page_2:
+                    if (navigationView.getSelectedItemId() != R.id.page_2) {
+                        MusicFragment musicFragment = new MusicFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(
+                                        android.R.anim.slide_in_left,  // enter
+                                        android.R.anim.fade_out,  // exit
+                                        android.R.anim.fade_in,   // popEnter
+                                        android.R.anim.slide_out_right  // popExit
+                                )
+                                .replace(R.id.frame, musicFragment)
+                                .commit();
+                        // Respond to navigation item 1 click
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case R.id.page_3:
+                    if (navigationView.getSelectedItemId() != R.id.page_3) {
+                        ChatFragment fragment11 = new ChatFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(
+                                        android.R.anim.slide_in_left,  // enter
+                                        android.R.anim.fade_out,  // exit
+                                        android.R.anim.fade_in,   // popEnter
+                                        android.R.anim.slide_out_right  // popExit
+                                )
+                                .replace(R.id.frame, fragment11)
+                                .commit();
+                        // Respond to navigation item 1 click
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case R.id.page_4:
+                    if (navigationView.getSelectedItemId() != R.id.page_4) {
+                        ExerciseFragment exerciseFragment = new ExerciseFragment();
+                        getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(
+                                        android.R.anim.slide_in_left,  // enter
+                                        android.R.anim.fade_out,  // exit
+                                        android.R.anim.fade_in,   // popEnter
+                                        android.R.anim.slide_out_right  // popExit
+                                )
+                                .replace(R.id.frame, exerciseFragment)
+                                .commit();
+                        // Respond to navigation item 1 click
+                        return true;
+                    } else {
+                        return false;
+                    }
+                case R.id.page_5:
+                    if (navigationView.getSelectedItemId() != R.id.page_5){
+                        AccountFragment accountFragment = new AccountFragment();
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                                android.R.anim.slide_in_left,  // enter
+                                android.R.anim.fade_out,  // exit
+                                android.R.anim.fade_in,   // popEnter
+                                android.R.anim.slide_out_right  // popExit
+                        ).replace(R.id.frame, accountFragment).commit();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                default:
+                    return false;
             }
         });
     }
@@ -139,6 +157,8 @@ public class BottomLayoutActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -155,13 +175,14 @@ public class BottomLayoutActivity extends AppCompatActivity {
                 startActivity(new Intent(BottomLayoutActivity.this, MainActivity.class));
                 finish();
                 overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         int selectedItemId = bottomNavigationView.getSelectedItemId();
         if (R.id.page_1 != selectedItemId) {
             setHomeItem(BottomLayoutActivity.this);
@@ -191,5 +212,14 @@ public class BottomLayoutActivity extends AppCompatActivity {
             public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
             }
         }).check();
+    }
+
+    public boolean isExists() {
+        File f = new File(getExternalFilesDir("F&H").getPath());
+        if (!f.exists()) {
+            return f.mkdir();
+        } else {
+            return true;
+        }
     }
 }

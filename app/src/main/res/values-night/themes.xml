@@ -81,5 +81,9 @@
         <item name="colorPrimary">#fff</item>
     </style>
 
+    <style name="color">
+        <item name="colorAccent">#1b262c</item>
+    </style>
+
 
 </resources>

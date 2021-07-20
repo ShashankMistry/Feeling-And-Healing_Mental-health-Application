@@ -2,7 +2,6 @@ package com.shashank.mentalhealth.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
@@ -33,9 +33,13 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.shashank.mentalhealth.R;
 
+import java.sql.Time;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
-@SuppressLint("UseCompatLoadingForDrawables")
+//@SuppressLint("UseCompatLoadingForDrawables")
 public class MusicFragment extends Fragment {
     private MediaPlayer mediaPlayer;
     private AudioManager mAudioManager;
@@ -79,7 +83,7 @@ public class MusicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_music, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_music, container, false);
         // Inflate the layout for this fragment
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         assert actionBar != null;
@@ -99,14 +103,14 @@ public class MusicFragment extends Fragment {
         volume.setValueTo(mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         volume.setValue(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
 //
-        button.setForeground(requireActivity().getDrawable(R.drawable.play96));
+        button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play96));
 
         button.setOnClickListener(v -> {
             mAudioManager.requestAudioFocus(mFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 //            Toast.makeText(getContext(), "length="+length+" "+"duration="+duration, Toast.LENGTH_SHORT).show();
             if (mediaPlayer == null) {
                 try {
-                    button.setForeground(requireActivity().getDrawable(R.drawable.loading96));
+                    button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.loading96));
                     new Thread(() -> {
                         mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(getCurrentLink())); //peace music
                         requireActivity().runOnUiThread(() -> {
@@ -126,7 +130,7 @@ public class MusicFragment extends Fragment {
                                     if (audioSessionId != -1) {
                                         mVisualizer.setAudioSessionId(audioSessionId);
                                     }
-                                } catch (Exception e){
+                                } catch (Exception e) {
                                     Dexter.withContext(getContext()).withPermission(Manifest.permission.RECORD_AUDIO).withListener(new PermissionListener() {
                                         @Override
                                         public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
@@ -145,7 +149,7 @@ public class MusicFragment extends Fragment {
                                     }).onSameThread().check();
                                 }
                                 mediaPlayer.start();
-                                button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                                button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause96));
                             } else {
                                 Toast.makeText(getContext(), "Error Loading Music", Toast.LENGTH_SHORT).show();
                             }
@@ -155,26 +159,27 @@ public class MusicFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.play96).getConstantState())) {
+            } else if (button.getForeground().getConstantState().equals(Objects.requireNonNull(ContextCompat.getDrawable(requireContext(), R.drawable.play96)).getConstantState())) {
 
-                button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause96));
                 if (length != 0) {
                     // mediaPlayer = MediaPlayer.create(MusicActivity.this, Uri.parse(getCurrentLink())); //peace music
                     mediaPlayer.seekTo(length);
                 }
                 mediaPlayer.start();
                 stopped = false;
-            } else if (button.getForeground().getConstantState().equals(getResources().getDrawable(R.drawable.pause96).getConstantState()) && mediaPlayer != null) {
-                button.setForeground(requireActivity().getDrawable(R.drawable.play96));
+            } else if (button.getForeground().getConstantState().equals(Objects.requireNonNull(ContextCompat.getDrawable(requireContext(), R.drawable.pause96)).getConstantState()) && mediaPlayer != null) {
+                button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play96));
                 mediaPlayer.pause();
                 length = mediaPlayer.getCurrentPosition();
                 //  releaseMediaResources();
             }
         });
         next.setOnClickListener(v -> {
-            button.setForeground(requireActivity().getDrawable(R.drawable.loading96));
+            button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.loading96));
             new Thread(() -> {
-                releaseMediaResources();
+//                releaseMediaResources();
+                mediaPlayer.reset();
                 mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(getCurrentLink())); //peace music
                 requireActivity().runOnUiThread(() -> {
                     if (isNetworkAvailable()) {
@@ -192,15 +197,16 @@ public class MusicFragment extends Fragment {
                             mVisualizer.setAudioSessionId(audioSessionId);
                         }
                         mediaPlayer.start();
-                        button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                        button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause96));
                     }
                 });
             }).start();
         });
         pre.setOnClickListener(v -> {
-            button.setForeground(requireActivity().getDrawable(R.drawable.loading96));
+            button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.loading96));
             new Thread(() -> {
-                releaseMediaResources();
+//                releaseMediaResources();
+                mediaPlayer.reset();
                 mediaPlayer = MediaPlayer.create(getContext(), Uri.parse(getCurrentLink())); //peace music
                 requireActivity().runOnUiThread(() -> {
                     if (isNetworkAvailable()) {
@@ -218,16 +224,17 @@ public class MusicFragment extends Fragment {
                             mVisualizer.setAudioSessionId(audioSessionId);
                         }
                         mediaPlayer.start();
-                        button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                        button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause96));
                     }
                 });
             }).start();
         });
-        try {
-            Handler mHandler = new Handler(Looper.getMainLooper());
-            requireActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+
+        Handler mHandler = new Handler(Looper.getMainLooper());
+        requireActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
                     if (mediaPlayer != null) {
                         int mCurrentPosition = mediaPlayer.getCurrentPosition();
                         if (!stopped) {
@@ -242,12 +249,13 @@ public class MusicFragment extends Fragment {
                             }
                         }
                     }
-                    mHandler.postDelayed(this, 1000);
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                    releaseMediaResources();
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                mHandler.postDelayed(this, 1000);
+            }
+        });
         seekBar.addOnChangeListener((slider, value, fromUser) -> {
             if (mediaPlayer != null && fromUser) {
                 mediaPlayer.seekTo((int) value * 1000);
@@ -261,13 +269,12 @@ public class MusicFragment extends Fragment {
     }
 
 
-
     @Override
     public void onPause() {
         super.onPause();
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
-                button.setForeground(requireActivity().getDrawable(R.drawable.play96));
+                button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play96));
 //            Toast.makeText(getContext(), "pause called", Toast.LENGTH_SHORT).show();
             }
         }
@@ -278,7 +285,7 @@ public class MusicFragment extends Fragment {
         super.onResume();
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
-                button.setForeground(requireActivity().getDrawable(R.drawable.pause96));
+                button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.pause96));
             }
         }
     }
@@ -297,6 +304,7 @@ public class MusicFragment extends Fragment {
             currentTime.setText("00:00");
             totalTime.setText("00:00");
             seekBar.setValue(0.0f);
+            button.setForeground(ContextCompat.getDrawable(requireContext(), R.drawable.play96));
         });
     }
 

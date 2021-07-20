@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:text="@string/exe_title"
+        android:textColor="#bbe1fa"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/amaranth"
+        android:gravity="center"
+        android:text='"It is not easy but it is worth it. now repeat that every day."'
+        android:textColor="#bbe1fa"
+        android:textSize="20sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardBackgroundColor="#3D9DEA"
+        app:cardCornerRadius="10dp">
+
+        <ListView
+            android:id="@+id/suggestions"
+            style="none"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="5dp"
+            android:divider="@null"
+            android:dividerHeight="5dp"
+            android:nestedScrollingEnabled="true"
+            tools:visibility="visible" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:text="NOTE: Best thing for people who are suffering from bipolar disorder we advice you to not do exessive excercise, you should do meditation and yoga."
+        android:textColor="#bbe1fa"
+        android:textSize="18sp" />
+</LinearLayout>

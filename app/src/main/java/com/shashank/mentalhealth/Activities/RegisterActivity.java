@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
     AlertDialog dialog;
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b");
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         textInputLayoutEmail = findViewById(R.id.input_email_reg);
         textInputLayoutPass = findViewById(R.id.input_pass_reg);
         textInputLayoutRePass = findViewById(R.id.input_reenter);
+        sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         Button reg = findViewById(R.id.btn_reg);
         Button google_reg = findViewById(R.id.google_reg);
         auth = FirebaseAuth.getInstance();
@@ -98,7 +103,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-        google_reg.setOnClickListener(v -> signIn());
+        google_reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putBoolean("google", true);
+                editor.apply();
+                signIn();
+            }
+        });
     }
 
     public static boolean validate(String emailStr) {
@@ -110,9 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(e, p).addOnCompleteListener(RegisterActivity.this, task -> {
             if (task.isSuccessful()) {
                 dialog.dismiss();
-                SharedPreferences sharedPreferences = getSharedPreferences("EditText", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("edit", e);
+                editor.putString("pass1092", pass_1.getText().toString());
+                editor.putBoolean("google", false);
                 editor.apply();
                 Intent intent = new Intent(RegisterActivity.this, BottomLayoutActivity.class);
                 startActivity(intent);

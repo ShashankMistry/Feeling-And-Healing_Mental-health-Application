@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ import com.shashank.mentalhealth.Dialog.ExerciseDialog;
 import com.shashank.mentalhealth.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -41,7 +39,7 @@ public class ExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_exercise, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_exercise, container, false);
         ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Exercise");

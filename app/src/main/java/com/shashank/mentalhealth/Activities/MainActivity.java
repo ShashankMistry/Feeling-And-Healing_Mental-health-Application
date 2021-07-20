@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
                             editor.putString("edit", nameText.getText().toString());
+                            editor.putString("pass1092",password.getText().toString());
+                            editor.putBoolean("google", false);
 //                            editor.putBoolean("login", true);
                             editor.apply();
                             dialog.dismiss();
@@ -192,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
                         .requestEmail()
                         .build();
                 mGoogleSignInClient = GoogleSignIn.getClient(MainActivity.this, gso);
+                editor.putBoolean("google",true);
+                editor.apply();
                 signIn();
             }
         });

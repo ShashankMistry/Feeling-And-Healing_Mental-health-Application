@@ -20,4 +20,9 @@
         android:enabled="true"
         android:icon="@drawable/ic_run"
         android:title="@string/exercise"/>
+    <item
+        android:id="@+id/page_5"
+        android:enabled="true"
+        android:icon="@drawable/ic_account"
+        android:title="@string/account"/>
 </menu>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Fragments.AccountFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/initial"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/magnitude_circle"
+        android:fontFamily="@font/asap"
+        android:gravity="center"
+        android:textSize="95dp"
+        tools:text="S" />
+
+    <TextView
+        android:id="@+id/name_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/asap"
+        android:textColor="#bbe1fa"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/email_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/asap"
+        android:textColor="#bbe1fa"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/asap"
+        android:text="Change Password: "
+        android:textSize="20sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_pass_acc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Old Password"
+        android:layout_margin="8dp"
+        app:hintTextColor="#A5A4A4"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password_acc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:fontFamily="@font/asap"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="#bbe1fa"
+            android:textColorHint="#BAB1B1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_reenter_acc"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="New Password"
+        app:hintTextColor="#A5A4A4"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_reenter_acc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:fontFamily="@font/asap"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:textColor="#bbe1fa"
+            android:textColorHint="#BAB1B1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/error_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="TextView"
+        android:textColor="#D50A0A" />
+
+    <Button
+        android:id="@+id/password_change"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/asap"
+        android:textColor="#bbe1fa"
+        android:foreground="@drawable/btn_ripple_bg"
+        android:text="change" />
+
+    <Button
+        android:id="@+id/exp_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="#bbe1fa"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/asap"
+        android:foreground="@drawable/btn_ripple_bg"
+        android:text="export results" />
+
+    <Button
+        android:id="@+id/imp_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#bbe1fa"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_bg"
+        android:fontFamily="@font/asap"
+        android:foreground="@drawable/btn_ripple_bg"
+        android:text="import results" />
+
+
+</LinearLayout>

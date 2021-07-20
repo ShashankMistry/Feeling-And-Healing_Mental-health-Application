@@ -7,13 +7,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.shashank.mentalhealth.Activities.MentalConditions;
 import com.shashank.mentalhealth.Activities.QuizActivity;
 import com.shashank.mentalhealth.DB.DBHelper;
 import com.shashank.mentalhealth.R;
@@ -29,19 +27,20 @@ public class QuizFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.activity_developer, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_conditions, container, false);
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("Quiz");
         depression = rootView.findViewById(R.id.dep);
         bipolar = rootView.findViewById(R.id.bip);
         anxiety = rootView.findViewById(R.id.anx);
+       //
         DBHelper dbHelper = new DBHelper(getContext(),null, 1);
-        try {
-            dbHelper.defaultQuestions();
-        }catch (Exception e){
-            Log.w("myApp", "already has data");
-        }
+//        try {
+//            dbHelper.defaultQuestions();
+//        }catch (Exception e){
+//            Log.w("myApp", "already has data");
+//        }
 
         depression.setOnClickListener(new View.OnClickListener() {
             @Override

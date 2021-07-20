@@ -46,7 +46,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -74,12 +73,13 @@ public class ChatFragment extends Fragment implements BotReply {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_chat, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_chat, container, false);
         // Inflate the layout for this fragment
-        ActionBar actionBar = ((AppCompatActivity)requireActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         assert actionBar != null;
         actionBar.setTitle("SAGE");
         chatView = rootView.findViewById(R.id.chatView);
+
         editMessage = rootView.findViewById(R.id.editMessage);
         btnSend = rootView.findViewById(R.id.btnSend);
         auth = FirebaseAuth.getInstance();
@@ -93,22 +93,46 @@ public class ChatFragment extends Fragment implements BotReply {
         } else {
             Name = sharedPreferences.getString("edit", "Friend").split("@")[0];
         }
-        new Thread(() -> {
-            Gson gson = new Gson();
-            DBHelper dbHelper = new DBHelper(getContext(),null ,1);
-            Type type = new TypeToken<ArrayList<Message>>() {}.getType();
-            messageList =  gson.fromJson(dbHelper.fetchChat(Name), type);
-            if (messageList == null) {
-                messageList = new ArrayList<>();
+//        new Thread(() -> {
+//            Gson gson = new Gson();
+//            DBHelper dbHelper = new DBHelper(getContext(),null ,1);
+//            Type type = new TypeToken<ArrayList<Message>>() {}.getType();
+//            messageList =  gson.fromJson(dbHelper.fetchChat(Name), type);
+//            if (messageList == null) {
+//                messageList = new ArrayList<>();
+//            }
+//            requireActivity().runOnUiThread(() -> {
+//                chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), Name);
+//                chatView.setAdapter(chatAdapter);
+//            });
+//        }).start();
+        chatView.animate().alpha(0.0f);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                chatView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Gson gson = new Gson();
+                        DBHelper dbHelper = new DBHelper(getContext(), null, 1);
+                        Type type = new TypeToken<ArrayList<Message>>() {
+                        }.getType();
+                        messageList = gson.fromJson(dbHelper.fetchChat(Name), type);
+                        if (messageList == null) {
+                            messageList = new ArrayList<>();
+                        }
+                        chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), Name);
+                        chatView.setAdapter(chatAdapter);
+                        chatView.animate().alpha(1.0f);
+                        chatView.smoothScrollToPosition(chatAdapter.getItemCount());
+                    }
+                });
             }
-            requireActivity().runOnUiThread(()->{
-                chatAdapter = new ChatAdapter(getContext(), messageList, getActivity(), Name);
-                chatView.setAdapter(chatAdapter);
-            });
-        }).start();
+        }, 1000);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
                 String message = editMessage.getText().toString();
                 if (!message.isEmpty()) {
                     messageList.add(new Message(message, false));
@@ -126,6 +150,7 @@ public class ChatFragment extends Fragment implements BotReply {
         setUpBot();
         return rootView;
     }
+
     private void setUpBot() {
         try {
             InputStream stream = this.getResources().openRawResource(R.raw.credential);
@@ -153,13 +178,13 @@ public class ChatFragment extends Fragment implements BotReply {
 
     @Override
     public void callback(DetectIntentResponse returnResponse) {
-        if(returnResponse!=null) {
+        if (returnResponse != null) {
             String botReply = returnResponse.getQueryResult().getFulfillmentText();
-            if(!botReply.isEmpty()){
+            if (!botReply.isEmpty()) {
                 messageList.add(new Message(botReply, true));
                 chatAdapter.notifyDataSetChanged();
                 Objects.requireNonNull(chatView.getLayoutManager()).scrollToPosition(messageList.size() - 1);
-            }else {
+            } else {
                 Toast.makeText(getContext(), "something went wrong", Toast.LENGTH_SHORT).show();
             }
         } else {

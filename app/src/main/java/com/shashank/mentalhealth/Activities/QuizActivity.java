@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,7 +29,7 @@ public class QuizActivity extends AppCompatActivity {
     Button submitbutton, quitbutton;
     RadioGroup radio_g;
     RadioButton rb1, rb2, rb3, rb4;
-    int flag = 0;
+    int flag = 0, p = 0;
     Intent intent;
     private int correct = 0;
 
@@ -41,6 +43,8 @@ public class QuizActivity extends AppCompatActivity {
         actionBar.setTitle("Quiz");
         actionBar.setDisplayHomeAsUpEnabled(true);
         TextView textView = findViewById(R.id.DispName);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax(10);
         intent = getIntent();
         DBHelper dbHelper = new DBHelper(this, null, 1);
         ArrayList<String> questions = new ArrayList<>();
@@ -97,6 +101,12 @@ public class QuizActivity extends AppCompatActivity {
                         break;
                     default:
                         break;
+                }
+                p++;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    progressBar.setProgress(p,true);
+                } else {
+                    progressBar.setProgress(p);
                 }
                 if (flag < questions.size()) {
                     tv.setText(questions.get(flag));
