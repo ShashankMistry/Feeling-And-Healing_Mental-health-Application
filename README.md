@@ -12,6 +12,7 @@ An Android application that helps people who suffers from mental illness by taki
 * lottie animations
 * Graph implementation
 * Permission handling with Dexter
+* Splash screen with motion layout
 * Blogs/Articles about mental health
 * Music stops when audio focus changes
 * in-app web browser with chrome custom tabs
