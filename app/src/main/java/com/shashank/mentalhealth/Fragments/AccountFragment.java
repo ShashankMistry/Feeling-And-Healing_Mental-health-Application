@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
@@ -103,6 +105,9 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("PROFILE");
         TextView initial = rootView.findViewById(R.id.initial);
         TextView name_acc = rootView.findViewById(R.id.name_account);
         TextView Email = rootView.findViewById(R.id.email_account);
@@ -112,8 +117,6 @@ public class AccountFragment extends Fragment {
         Button imp = rootView.findViewById(R.id.imp_acc);
         TextInputEditText password = rootView.findViewById(R.id.et_password_acc);
         TextInputEditText confirm = rootView.findViewById(R.id.et_reenter_acc);
-//        TableLayout p1 = rootView.findViewById(R.id.input_pass_acc);
-//        TableLayout p2 = rootView.findViewById(R.id.input_reenter_acc);
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
@@ -154,16 +157,20 @@ public class AccountFragment extends Fragment {
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.updatePassword(confirm.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Password changed successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_SHORT).show();
+                if (passOld.equals(password.getText().toString())) {
+                    user.updatePassword(confirm.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Password changed successfully", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), "Error occurred", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Old password does not match", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -172,7 +179,7 @@ public class AccountFragment extends Fragment {
             confirm.setEnabled(false);
             error.setText("You signed in with google, password can't be changed");
         } else {
-            Toast.makeText(getContext(), sharedPreferences.getBoolean("google",true)+"", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), sharedPreferences.getBoolean("google",true)+"", Toast.LENGTH_SHORT).show();
             password.setEnabled(true);
             confirm.setEnabled(true);
             error.setText("password must contain 6 characters");
